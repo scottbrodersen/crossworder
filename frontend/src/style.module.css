@@ -149,6 +149,10 @@ button:focus-visible {
   flex-direction: row;
   align-items: baseline;
 }
+
+.idPart input {
+  min-width: 500px;
+}
 .idLabel {
   margin-right: 1em;
 }
