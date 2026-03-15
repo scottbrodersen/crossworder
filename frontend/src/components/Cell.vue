@@ -4,7 +4,7 @@
   import { onBeforeMount, ref, watch } from 'vue';
 
   const props = defineProps<{ cell: utils.Cell; row: number; col: number }>();
-  const emits = defineEmits(['updated', 'keydown']);
+  const emits = defineEmits(['updated', 'clicked']);
 
   const cell = ref<utils.Cell>(new utils.Cell());
   cell.value.value = props.cell.value;
@@ -13,12 +13,8 @@
   const bgColour = ref<string>('');
 
   const init = () => {
-    // if (utils.state.column == props.col && utils.state.row == props.row) {
-    //   bgColour.value = '#FFFDCF';
-    // } else {
     bgColour.value = cell.value.value == '#' ? 'black' : '';
   };
-  // };
 
   const setLabel = (num: number) => {
     label.value = num > 0 ? String(num) : '';
@@ -26,7 +22,7 @@
 
   const updateValue = (val: string) => {
     cell.value.value = val;
-    bgColour.value = cell.value.value == '#' ? 'black' : 'green';
+    bgColour.value = cell.value.value == '#' ? 'black' : '';
 
     emits('updated', val);
   };
@@ -67,11 +63,26 @@
   const setCurrentCell = () => {
     utils.state.row = props.row;
     utils.state.column = props.col;
+    // trigger word selection
+    emits('clicked', props.row, props.col);
   };
 
+  const emitClicked = () => {
+    if (
+      props.row == utils.state.clickedRow &&
+      props.col == utils.state.clickedColumn
+    ) {
+      toggleDirection();
+    } else {
+      utils.state.clickedRow = props.row;
+      utils.state.clickedColumn = props.col;
+    }
+    emits('clicked', props.row, props.col);
+  };
   const toggleDirection = () => {
     if (props.row == utils.state.row && props.col == utils.state.column) {
       utils.toggleDirection();
+      emits('clicked', props.row, props.col);
     }
   };
 
@@ -102,6 +113,7 @@
       @update:model-value="(value) => updateValue(value as string)"
       @focus.stop="setCurrentCell()"
       @keyup.enter="toggleDirection()"
+      @click="emitClicked()"
     />
   </div>
 </template>
