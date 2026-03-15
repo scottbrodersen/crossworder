@@ -38,3 +38,5 @@ handler/dist/
 node_modules
 
 __debug*
+
+bin/
