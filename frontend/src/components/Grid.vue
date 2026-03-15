@@ -19,6 +19,107 @@
     grid.value.generateNumbers();
   };
 
+  const onCellClick = (row: number, col: number) => {
+    clearCellColours();
+    highlightWord(row, col);
+    const selected = document.getElementById(`${row}-${col}`);
+
+    if (selected) {
+      selected.style.setProperty(
+        'background-color',
+        'lemonchiffon',
+        'important',
+      );
+      const input = selected.getElementsByTagName('input')[0].value;
+    }
+  };
+
+  const clearCellColours = () => {
+    for (let r = 0; r < props.dimension; r++) {
+      for (let c = 0; c < props.dimension; c++) {
+        const cellDiv = document.getElementById(`${r}-${c}`);
+        if (cellDiv) {
+          cellDiv.style.setProperty('background-color', '', 'important');
+        }
+      }
+    }
+  };
+
+  const highlightWord = (r: number, c: number) => {
+    if (utils.state.horizontal) {
+      // walk backward from clicked cell
+      for (let i = c; i >= 0; i--) {
+        const cellDiv = document.getElementById(`${r}-${i}`);
+
+        if (cellDiv) {
+          const inputValue = cellDiv.getElementsByTagName('input')[0].value;
+          if (inputValue != '#') {
+            cellDiv.style.setProperty(
+              'background-color',
+              'lightYellow',
+              'important',
+            );
+          } else {
+            break;
+          }
+        }
+      }
+      // walk forward from clicked cell
+      for (let i = c + 1; i < grid.value.dimension; i++) {
+        const cellDiv = document.getElementById(`${r}-${i}`);
+
+        if (cellDiv) {
+          const inputValue = cellDiv.getElementsByTagName('input')[0].value;
+          if (inputValue != '#') {
+            cellDiv.style.setProperty(
+              'background-color',
+              'lightYellow',
+              'important',
+            );
+          } else {
+            break;
+          }
+        }
+      }
+    } else {
+      // vertical
+      // walk upward from clicked cell
+      for (let i = r; i >= 0; i--) {
+        const cellDiv = document.getElementById(`${i}-${c}`);
+
+        if (cellDiv) {
+          const inputValue = cellDiv.getElementsByTagName('input')[0].value;
+          if (inputValue != '#') {
+            cellDiv.style.setProperty(
+              'background-color',
+              'lightYellow',
+              'important',
+            );
+          } else {
+            break;
+          }
+        }
+      }
+      // walk downward from clicked cell
+      for (let i = r + 1; i < grid.value.dimension; i++) {
+        const cellDiv = document.getElementById(`${i}-${c}`);
+
+        if (cellDiv) {
+          const inputValue = cellDiv.getElementsByTagName('input')[0].value;
+          if (inputValue != '#') {
+            cellDiv.style.setProperty(
+              'background-color',
+              'lightYellow',
+              'important',
+            );
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  };
+
   const importFileContent = (content: string) => {
     grid.value.importText(content);
     grid.value.generateNumbers();
@@ -71,8 +172,13 @@
           :row="rowindex"
           :col="colindex"
           @updated="(value) => onCellUpdate(value, rowindex, colindex)"
+          @clicked="
+            (r, c) => {
+              onCellClick(r, c);
+            }
+          "
           :class="[styles.gridCell]"
-          :id="`${rowindex}${colindex}`"
+          :id="`${rowindex}-${colindex}`"
         />
       </div>
     </div>

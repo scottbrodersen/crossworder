@@ -317,6 +317,8 @@ export const toggleDirection = () => {
 export const state = reactive({
   row: 0,
   column: 0,
+  clickedRow: 0,
+  clickedColumn: 0,
   horizontal: true,
   wordLength: 0,
   dimension: 0,
