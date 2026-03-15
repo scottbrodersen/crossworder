@@ -8,6 +8,6 @@ Supports saving and opening files (.txt).
 
 <img src="puzzle.png" width="600px" />
 
-The app includes a back end written in Go and a front end written in VueJS.
+The app includes a back end written in Go and a front end written in VueJS (TypeScript).
 
 Run build.sh, run the executable, then go to localhost:3000/crossworder/dist in your browser.
