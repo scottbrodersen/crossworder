@@ -314,6 +314,19 @@ export const toggleDirection = () => {
   state.horizontal = !state.horizontal;
 };
 
+export const focusOnCell = (r: number, c: number) => {
+  if (r < state.dimension && c < state.dimension && r > -1 && c > -1) {
+    const nextCell = document.getElementById(`${r}-${c}`);
+    if (nextCell) {
+      const input = nextCell.getElementsByTagName('input')[0];
+      if (input) {
+        input.focus();
+        input.select();
+      }
+    }
+  }
+};
+
 export const state = reactive({
   row: 0,
   column: 0,

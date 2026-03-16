@@ -30,7 +30,6 @@
         'lemonchiffon',
         'important',
       );
-      const input = selected.getElementsByTagName('input')[0].value;
     }
   };
 

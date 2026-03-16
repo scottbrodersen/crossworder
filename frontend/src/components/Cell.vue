@@ -86,6 +86,41 @@
     }
   };
 
+  const keyPress = (evt: KeyboardEvent) => {
+    if (evt.key == 'Enter') {
+      toggleDirection();
+    } else if (evt.key == 'ArrowRight') {
+      if (!utils.state.horizontal) {
+        utils.toggleDirection();
+      }
+      utils.focusOnCell(props.row, props.col + 1);
+    } else if (evt.key == 'ArrowLeft') {
+      if (!utils.state.horizontal) {
+        utils.toggleDirection();
+      }
+      utils.focusOnCell(props.row, props.col - 1);
+    } else if (evt.key == 'ArrowUp') {
+      if (utils.state.horizontal) {
+        utils.toggleDirection();
+      }
+      utils.focusOnCell(props.row - 1, props.col);
+    } else if (evt.key == 'ArrowDown') {
+      if (utils.state.horizontal) {
+        utils.toggleDirection();
+      }
+      utils.focusOnCell(props.row + 1, props.col);
+    } else {
+      const regex = /^[a-zA-Z#]$/;
+      if (regex.test(evt.key)) {
+        if (utils.state.horizontal) {
+          utils.focusOnCell(props.row, props.col + 1);
+        } else if (!utils.state.horizontal) {
+          utils.focusOnCell(props.row + 1, props.col);
+        }
+      }
+    }
+  };
+
   onBeforeMount(() => {
     setLabel(props.cell.number);
     init();
@@ -112,7 +147,11 @@
       :bg-color="bgColour"
       @update:model-value="(value) => updateValue(value as string)"
       @focus.stop="setCurrentCell()"
-      @keyup.enter="toggleDirection()"
+      @keyup="
+        (evt: KeyboardEvent) => {
+          keyPress(evt);
+        }
+      "
       @click="emitClicked()"
     />
   </div>
