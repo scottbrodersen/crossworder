@@ -109,6 +109,12 @@
         utils.toggleDirection();
       }
       utils.focusOnCell(props.row + 1, props.col);
+    } else if (evt.key == 'Backspace') {
+      if (utils.state.horizontal) {
+        utils.focusOnCell(props.row, props.col - 1);
+      } else if (!utils.state.horizontal) {
+        utils.focusOnCell(props.row - 1, props.col);
+      }
     } else {
       const regex = /^[a-zA-Z#]$/;
       if (regex.test(evt.key)) {
