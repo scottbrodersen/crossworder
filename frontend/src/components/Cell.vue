@@ -68,6 +68,7 @@
   };
 
   const emitClicked = () => {
+    utils.state.backspaces = 0;
     if (
       props.row == utils.state.clickedRow &&
       props.col == utils.state.clickedColumn
@@ -93,31 +94,38 @@
       if (!utils.state.horizontal) {
         utils.toggleDirection();
       }
+      utils.state.backspaces = 0;
+
       utils.focusOnCell(props.row, props.col + 1);
     } else if (evt.key == 'ArrowLeft') {
       if (!utils.state.horizontal) {
         utils.toggleDirection();
       }
+      utils.state.backspaces = 0;
       utils.focusOnCell(props.row, props.col - 1);
     } else if (evt.key == 'ArrowUp') {
       if (utils.state.horizontal) {
         utils.toggleDirection();
       }
+      utils.state.backspaces++;
       utils.focusOnCell(props.row - 1, props.col);
     } else if (evt.key == 'ArrowDown') {
       if (utils.state.horizontal) {
         utils.toggleDirection();
       }
+      utils.state.backspaces = 0;
       utils.focusOnCell(props.row + 1, props.col);
     } else if (evt.key == 'Backspace') {
-      if (utils.state.horizontal) {
+      utils.state.backspaces++;
+      if (utils.state.horizontal && utils.state.backspaces > 1) {
         utils.focusOnCell(props.row, props.col - 1);
-      } else if (!utils.state.horizontal) {
+      } else if (!utils.state.horizontal && utils.state.backspaces > 1) {
         utils.focusOnCell(props.row - 1, props.col);
       }
     } else {
       const regex = /^[a-zA-Z#]$/;
       if (regex.test(evt.key)) {
+        utils.state.backspaces = 0;
         if (utils.state.horizontal) {
           utils.focusOnCell(props.row, props.col + 1);
         } else if (!utils.state.horizontal) {
