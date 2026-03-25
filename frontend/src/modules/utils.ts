@@ -336,4 +336,5 @@ export const state = reactive({
   wordLength: 0,
   dimension: 0,
   fileName: 'crossworder.txt',
+  backspaces: 0,
 });
