@@ -16,6 +16,19 @@
 
   const onCellUpdate = (val: string, row: number, col: number) => {
     grid.value.grid[row][col].value = val;
+
+    const mirrorRow = utils.getMirrorCoord(row, props.dimension);
+    const mirrorCol = utils.getMirrorCoord(col, props.dimension);
+
+    // add or remove mirrored black squares
+    if (val == '#') {
+      grid.value.grid[mirrorRow][mirrorCol].value = '#';
+    } else {
+      if (grid.value.grid[mirrorRow][mirrorCol].value == '#') {
+        grid.value.grid[mirrorRow][mirrorCol].value = '';
+      }
+    }
+
     grid.value.generateNumbers();
   };
 
