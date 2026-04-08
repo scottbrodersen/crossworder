@@ -338,3 +338,7 @@ export const state = reactive({
   fileName: 'crossworder.txt',
   backspaces: 0,
 });
+
+export const getMirrorCoord = (coord: number, dimension: number) => {
+  return dimension - 1 - coord;
+};
